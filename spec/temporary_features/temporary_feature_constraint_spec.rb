@@ -1,11 +1,8 @@
 require "spec_helper"
 
-describe TemporaryFeatures::ControllerHelpers do
+describe TemporaryFeatures::TemporaryFeatureConstraint do
   subject do
-    class DummyClass
-      include TemporaryFeatures::ControllerHelpers
-    end
-    DummyClass.new
+    TemporaryFeatures::TemporaryFeatureConstraint.new(:dummy)
   end
 
   describe "#temporary_feature" do
@@ -15,10 +12,8 @@ describe TemporaryFeatures::ControllerHelpers do
         TemporaryFeatures::TemporaryFeature.should_receive(:new).with(:dummy).and_return(tf)
       end
 
-      it "should call block" do
-        expect do |b|
-          subject.temporary_feature(:dummy, &b)
-        end.to yield_control
+      it "should match" do
+        subject.matches?(double).should be_true
       end
     end
 
@@ -28,10 +23,8 @@ describe TemporaryFeatures::ControllerHelpers do
         TemporaryFeatures::TemporaryFeature.should_receive(:new).with(:dummy).and_return(tf)
       end
 
-      it "should not call block" do
-        expect do |b|
-          subject.temporary_feature(:dummy, &b)
-        end.not_to yield_control
+      it "should not match" do
+        subject.matches?(double).should be_false
       end
     end
   end

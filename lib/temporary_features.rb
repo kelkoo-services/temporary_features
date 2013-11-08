@@ -2,6 +2,7 @@ require "temporary_features/version"
 require "temporary_features/configuration"
 require "temporary_features/temporary_feature"
 require "temporary_features/controller_helpers"
+require "temporary_features/routing_helpers"
 require "temporary_features/railtie.rb" if defined?(Rails)
 
 module TemporaryFeatures
