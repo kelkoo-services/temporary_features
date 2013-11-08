@@ -1,9 +1,9 @@
 require "spec_helper"
 
-describe TemporaryFeatures::Helpers do
+describe TemporaryFeatures::ControllerHelpers do
   subject do
     class DummyClass
-      include TemporaryFeatures::Helpers
+      include TemporaryFeatures::ControllerHelpers
     end
     DummyClass.new
   end

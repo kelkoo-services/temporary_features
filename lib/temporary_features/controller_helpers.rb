@@ -1,5 +1,5 @@
 module TemporaryFeatures
-  module Helpers
+  module ControllerHelpers
     def temporary_feature(feature_id, &block)
       block.call if TemporaryFeature.new(feature_id).enabled?
     end

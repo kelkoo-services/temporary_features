@@ -1,8 +1,8 @@
 require "temporary_features/version"
 require "temporary_features/configuration"
 require "temporary_features/temporary_feature"
-require "temporary_features/helpers"
-require "/home/francis/workspace/temporary_features/lib/temporary_features/railtie.rb" if defined?(Rails)
+require "temporary_features/controller_helpers"
+require "temporary_features/railtie.rb" if defined?(Rails)
 
 module TemporaryFeatures
   def self.configuration
