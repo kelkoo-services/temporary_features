@@ -1,6 +1,7 @@
 require "temporary_features/version"
 require "temporary_features/configuration"
 require "temporary_features/temporary_feature"
+require "temporary_features/helpers"
 
 module TemporaryFeatures
   def self.configuration
