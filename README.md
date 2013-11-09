@@ -53,6 +53,16 @@ In views
       <%= render ... %>
     <% end %>
 
+When you want to manually test the feature in production before it goes
+live, you only have to add a parameter `stfcf=<id-of-your-feature>` to the
+request path (stfcf stands for "skip temporary feature check for"). It
+will be remembered in session so you can navigate through all the pages
+that take part of your feature.
+
+Once you've finished, make a request with a parameter `stfcf=nothing` so
+that you'll see the normal behaviour (you won't see the feature unless you
+are between the start and end times)
+
 ## Contributing
 
 1. Fork it
