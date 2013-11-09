@@ -24,6 +24,7 @@ Or install it yourself as:
 ## Usage
 
 In config/temporary\_features.yml
+
     dummy_feature:
       from: 2013-11-08 23:25:00 +01:00
       to: 2013-11-08 23:26:00 +01:00
