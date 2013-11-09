@@ -11,5 +11,9 @@ module TemporaryFeatures
     def skip_temporary_feature_check_for
       params[:stfcf] || session[:stfcf]
     end
+
+    def remember_skip_temporary_feature_check_for
+      session[:stfcf] = skip_temporary_feature_check_for
+    end
   end
 end

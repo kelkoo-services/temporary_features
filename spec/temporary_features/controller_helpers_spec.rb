@@ -66,4 +66,14 @@ describe TemporaryFeatures::ControllerHelpers do
       end
     end
   end
+
+  describe "#remember_skip_temporary_feature_check_for" do
+    it "should store the skip parameter in session" do
+      session = {}
+      subject.stub(:session).and_return(session)
+      subject.stub(:params).and_return({ stfcf: "dummy" })
+      subject.remember_skip_temporary_feature_check_for
+      session[:stfcf].should == "dummy"
+    end
+  end
 end
