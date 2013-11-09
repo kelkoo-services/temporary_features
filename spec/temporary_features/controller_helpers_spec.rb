@@ -8,6 +8,11 @@ describe TemporaryFeatures::ControllerHelpers do
     DummyClass.new
   end
 
+  before do
+    subject.stub(:params).and_return({})
+    subject.stub(:session).and_return({})
+  end
+
   describe "#temporary_feature" do
     describe "when feature is enabled" do
       before do
@@ -32,6 +37,32 @@ describe TemporaryFeatures::ControllerHelpers do
         expect do |b|
           subject.temporary_feature(:dummy, &b)
         end.not_to yield_control
+      end
+    end
+
+    describe "when adding a parameter to skip the check" do
+      before do
+        TemporaryFeatures::TemporaryFeature.should_not_receive(:new)
+        subject.stub(:params).and_return({ stfcf: "dummy" })
+      end
+
+      it "should call block even if the feature is disabled" do
+        expect do |b|
+          subject.temporary_feature(:dummy, &b)
+        end.to yield_control
+      end
+    end
+
+    describe "when stored in session a parameter to skip the check" do
+      before do
+        TemporaryFeatures::TemporaryFeature.should_not_receive(:new)
+        subject.stub(:session).and_return({ stfcf: "dummy" })
+      end
+
+      it "should call block even if the feature is disabled" do
+        expect do |b|
+          subject.temporary_feature(:dummy, &b)
+        end.to yield_control
       end
     end
   end
