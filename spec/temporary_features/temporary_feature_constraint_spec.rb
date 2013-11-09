@@ -13,7 +13,8 @@ describe TemporaryFeatures::TemporaryFeatureConstraint do
       end
 
       it "should match" do
-        subject.matches?(double).should be_true
+        request = double("http request", params: {}, session: {})
+        subject.matches?(request).should be_true
       end
     end
 
@@ -24,7 +25,30 @@ describe TemporaryFeatures::TemporaryFeatureConstraint do
       end
 
       it "should not match" do
-        subject.matches?(double).should be_false
+        request = double("http request", params: {}, session: {})
+        subject.matches?(request).should be_false
+      end
+    end
+
+    describe "when adding a parameter to skip the theck" do
+      before do
+        TemporaryFeatures::TemporaryFeature.should_not_receive(:new)
+      end
+
+      it "should match even if the feature is disabled" do
+        request = double("http request", params: { stfcf: "dummy" }, session: {})
+        subject.matches?(request).should be_true
+      end
+    end
+
+    describe "when stored in session a parameter to skip the theck" do
+      before do
+        TemporaryFeatures::TemporaryFeature.should_not_receive(:new)
+      end
+
+      it "should match even if the feature is disabled" do
+        request = double("http request", params: {}, session: { stfcf: "dummy" })
+        subject.matches?(request).should be_true
       end
     end
   end
