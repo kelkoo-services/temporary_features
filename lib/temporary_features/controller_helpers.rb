@@ -1,7 +1,13 @@
 module TemporaryFeatures
   module ControllerHelpers
     def temporary_feature(feature_id, &block)
-      block.call if skip_temporary_feature_check_for?(feature_id) || TemporaryFeature.new(feature_id).enabled?
+      enabled = skip_temporary_feature_check_for?(feature_id) || TemporaryFeature.new(feature_id).enabled?
+
+      if block.arity == 0
+        block.call if enabled
+      else
+        block.call(enabled)
+      end
     end
 
     def skip_temporary_feature_check_for?(feature_id)

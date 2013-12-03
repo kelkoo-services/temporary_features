@@ -18,6 +18,22 @@ describe TemporaryFeatures::TemporaryFeatureConstraint do
       end
     end
 
+    describe "when feature is enabled but negated" do
+      subject do
+        TemporaryFeatures::TemporaryFeatureConstraint.new(:dummy, true)
+      end
+
+      before do
+        tf = double("TemporaryFeatures::TemporaryFeature", enabled?: true)
+        TemporaryFeatures::TemporaryFeature.should_receive(:new).with(:dummy).and_return(tf)
+      end
+
+      it "should not match" do
+        request = double("http request", params: {}, session: {})
+        subject.matches?(request).should be_false
+      end
+    end
+
     describe "when feature is disabled" do
       before do
         tf = double("TemporaryFeatures::TemporaryFeature", enabled?: false)
@@ -27,6 +43,22 @@ describe TemporaryFeatures::TemporaryFeatureConstraint do
       it "should not match" do
         request = double("http request", params: {}, session: {})
         subject.matches?(request).should be_false
+      end
+    end
+
+    describe "when feature is disabled but negated" do
+      subject do
+        TemporaryFeatures::TemporaryFeatureConstraint.new(:dummy, true)
+      end
+
+      before do
+        tf = double("TemporaryFeatures::TemporaryFeature", enabled?: false)
+        TemporaryFeatures::TemporaryFeature.should_receive(:new).with(:dummy).and_return(tf)
+      end
+
+      it "should match" do
+        request = double("http request", params: {}, session: {})
+        subject.matches?(request).should be_true
       end
     end
 
