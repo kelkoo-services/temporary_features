@@ -21,9 +21,19 @@ describe TemporaryFeatures::ControllerHelpers do
       end
 
       it "should call block" do
-        expect do |b|
-          subject.temporary_feature(:dummy, &b)
-        end.to yield_control
+        block = Proc.new do
+          "called"
+        end
+
+        expect(subject.temporary_feature(:dummy, &block)).to eq "called"
+      end
+
+      it "should call block with true" do
+        block = Proc.new do |enabled|
+          enabled
+        end
+
+        expect(subject.temporary_feature(:dummy, &block)).to be_true
       end
     end
 
@@ -34,9 +44,19 @@ describe TemporaryFeatures::ControllerHelpers do
       end
 
       it "should not call block" do
-        expect do |b|
-          subject.temporary_feature(:dummy, &b)
-        end.not_to yield_control
+        block = Proc.new do
+          "called"
+        end
+
+        expect(subject.temporary_feature(:dummy, &block)).to be_nil
+      end
+
+      it "should call block with false" do
+        block = Proc.new do |enabled|
+          enabled
+        end
+
+        expect(subject.temporary_feature(:dummy, &block)).to be_false
       end
     end
 
@@ -47,9 +67,11 @@ describe TemporaryFeatures::ControllerHelpers do
       end
 
       it "should call block even if the feature is disabled" do
-        expect do |b|
-          subject.temporary_feature(:dummy, &b)
-        end.to yield_control
+        block = Proc.new do
+          "called"
+        end
+
+        expect(subject.temporary_feature(:dummy, &block)).to eq "called"
       end
     end
 
@@ -60,9 +82,11 @@ describe TemporaryFeatures::ControllerHelpers do
       end
 
       it "should call block even if the feature is disabled" do
-        expect do |b|
-          subject.temporary_feature(:dummy, &b)
-        end.to yield_control
+        block = Proc.new do
+          "called"
+        end
+
+        expect(subject.temporary_feature(:dummy, &block)).to eq "called"
       end
     end
   end

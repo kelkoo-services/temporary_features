@@ -1,11 +1,13 @@
 module TemporaryFeatures
   class TemporaryFeatureConstraint
-    def initialize(feature_id)
-      @feature_id = feature_id
+    def initialize(feature_id, negate = false)
+      @feature_id, @negate = feature_id, negate
     end
 
     def matches?(request)
-      skip_check?(request) || TemporaryFeature.new(@feature_id).enabled?
+      matches = skip_check?(request) || TemporaryFeature.new(@feature_id).enabled?
+      matches = !matches if @negate
+      matches
     end
 
     private
