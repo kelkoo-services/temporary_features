@@ -53,6 +53,18 @@ In views
       <%= render ... %>
     <% end %>
 
+Sometimes you'll want to do something when the feature is enabled and
+something else when it is disabled. No problem, just use a block with a
+parameter:
+
+    <% temporary_feature :dummy_feature do |enabled| %>
+      <% if enabled %>
+        <%= render ... %>
+      <% else %>
+        We're sorry, this dummy feature is not available right now.
+      <% end %>
+    <% end %>
+
 When you want to manually test the feature in production before it goes
 live, you only have to add a parameter `stfcf=<id-of-your-feature>` to the
 request path (stfcf stands for "skip temporary feature check for"). It
