@@ -34,4 +34,10 @@ describe TemporaryFeatures::TemporaryFeature do
 
     it { should_not be_enabled }
   end
+
+  describe "unknown features" do
+    subject { TemporaryFeatures::TemporaryFeature.new(:unknown_feature) }
+
+    it { should_not be_enabled }
+  end
 end
