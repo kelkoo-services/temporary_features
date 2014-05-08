@@ -9,6 +9,9 @@ describe TemporaryFeatures::TemporaryFeature do
         "dummy_feature" => {
           "from" => Time.parse("2013-11-08 16:00:00 +0100"),
           "to"   => Time.parse("2013-11-15 23:59:59 +0100")
+        },
+        "never_ending_feature" => {
+          "from" => Time.parse("2013-11-08 16:00:00 +0100")
         }
       }
     end
@@ -40,4 +43,21 @@ describe TemporaryFeatures::TemporaryFeature do
 
     it { should_not be_enabled }
   end
+
+  describe "feature without to before start date" do
+    before { Delorean.time_travel_to Time.parse("2013-11-07 00:00:00 +0100") }
+    after  { Delorean.back_to_1985 }
+    subject { TemporaryFeatures::TemporaryFeature.new(:never_ending_feature) }
+
+    it {should_not be_enabled}
+  end
+
+  describe "feature without to after start date" do
+    before { Delorean.time_travel_to Time.parse("2013-11-10 00:00:00 +0100") }
+    after  { Delorean.back_to_1985 }
+    subject { TemporaryFeatures::TemporaryFeature.new(:never_ending_feature) }
+
+    it {should be_enabled}
+  end
+
 end
