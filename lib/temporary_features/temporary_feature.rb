@@ -8,7 +8,7 @@ module TemporaryFeatures
       return unless settings?
 
       now = Time.now
-      (start_time <= now) and (now <= end_time)
+      (start_time <= now) and ( end_time.nil? || (now <= end_time))
     end
 
     private
