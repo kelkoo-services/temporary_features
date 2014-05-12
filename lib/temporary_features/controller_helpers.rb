@@ -3,7 +3,9 @@ module TemporaryFeatures
     def temporary_feature(feature_id, &block)
       enabled = skip_temporary_feature_check_for?(feature_id) || TemporaryFeature.new(feature_id).enabled?
 
-      if block.arity == 0
+      if block.nil?
+        enabled
+      elsif block.arity == 0
         block.call if enabled
       else
         block.call(enabled)
