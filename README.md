@@ -28,6 +28,8 @@ In config/temporary\_features.yml
     dummy_feature:
       from: 2013-11-08 23:25:00 +01:00
       to: 2013-11-08 23:26:00 +01:00
+    foo_feature:
+      from: 2014-05-05 00:00:00 +02:00
 
 In config/initializers/temporary\_features.rb
 
@@ -64,6 +66,12 @@ parameter:
         We're sorry, this dummy feature is not available right now.
       <% end %>
     <% end %>
+
+In controllers and views, you can also query whether a temporary feature
+is enabled or not. Simply don't pass any block.
+
+    temporary_feature(:foo_feature) # => true
+    temporary_feature(:bar_feature) # => false
 
 When you want to manually test the feature in production before it goes
 live, you only have to add a parameter `stfcf=<id-of-your-feature>` to the

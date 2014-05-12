@@ -20,6 +20,10 @@ describe TemporaryFeatures::ControllerHelpers do
         TemporaryFeatures::TemporaryFeature.should_receive(:new).with(:dummy).and_return(tf)
       end
 
+      it "should return true" do
+        expect(subject.temporary_feature(:dummy)).to be_true
+      end
+
       it "should call block" do
         block = Proc.new do
           "called"
@@ -41,6 +45,10 @@ describe TemporaryFeatures::ControllerHelpers do
       before do
         tf = double("TemporaryFeatures::TemporaryFeature", enabled?: false)
         TemporaryFeatures::TemporaryFeature.should_receive(:new).with(:dummy).and_return(tf)
+      end
+
+      it "should return false" do
+        expect(subject.temporary_feature(:dummy)).to be_false
       end
 
       it "should not call block" do
@@ -66,6 +74,10 @@ describe TemporaryFeatures::ControllerHelpers do
         subject.stub(:params).and_return({ stfcf: "dummy" })
       end
 
+      it "should return true" do
+        expect(subject.temporary_feature(:dummy)).to be_true
+      end
+
       it "should call block even if the feature is disabled" do
         block = Proc.new do
           "called"
@@ -79,6 +91,10 @@ describe TemporaryFeatures::ControllerHelpers do
       before do
         TemporaryFeatures::TemporaryFeature.should_not_receive(:new)
         subject.stub(:session).and_return({ stfcf: "dummy" })
+      end
+
+      it "should return true" do
+        expect(subject.temporary_feature(:dummy)).to be_true
       end
 
       it "should call block even if the feature is disabled" do
